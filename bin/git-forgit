@@ -134,12 +134,22 @@ _forgit_fullscreen_context=${FORGIT_FULLSCREEN_CONTEXT:-10}
 _forgit_preview_context=${FORGIT_PREVIEW_CONTEXT:-3}
 _forgit_dir_view=${FORGIT_DIR_VIEW:-$(hash tree &> /dev/null && echo 'tree' || echo 'find')}
 
+
+# _forgit_pager() {
+#     local pager
+#     pager=$(_forgit_get_pager "$1")
+#     [[ -z "${pager}" ]] && exit 1
+#     eval "${pager} ${*:2}"
+# }
+
+
+# hard-code delta as pager to fix issue as mentioned in https://github.com/dandavison/delta/issues/368
 _forgit_pager() {
-    local pager
-    pager=$(_forgit_get_pager "$1")
-    [[ -z "${pager}" ]] && exit 1
+    local pager="delta --side-by-side --width ${FZF_PREVIEW_COLUMNS:-$COLUMNS}"
     eval "${pager} ${*:2}"
 }
+
+
 
 _forgit_get_pager() {
     local pager
